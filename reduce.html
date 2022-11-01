@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reduce方法相关</title>
+</head>
+<body>
+    <script>
+        // 数组中元素累加
+        const arr = [1, 2, 3, 4]
+        // 设定初始值
+        const initialValue = 0
+    
+        const sum = arr.reduce((preValue, curValue, curIndex, arr) => preValue + curValue, initialValue)
+
+        console.log(sum)
+        // 计算数组中每个元素出现的次数
+
+    </script>
+</body>
+</html>

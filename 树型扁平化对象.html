@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        const obj = {
+            a: {
+                b: 'hello',
+                c: {
+                    d: 'world'
+                }
+            },
+            e: 'hello world'
+        }
+
+        // 转换为
+        // {
+        //     'a.b': 'hello',
+        //     'a.c.d': 'world',
+        //     'e': 'hello world'
+        // }
+        const newObj = {
+
+        }
+
+        function fun(obj, str) {
+            let keyStr = ''
+            for (_key in obj) {
+                keyStr = str ? str + `.${_key}` : str + `${_key}`
+                if (typeof obj[_key] === 'object') {
+                    fun(obj[_key], keyStr)
+                } else {
+                    newObj[keyStr] = obj[_key]
+                }
+            }
+
+        }
+
+        fun(obj, '')
+
+        console.log(newObj)
+
+    </script>
+</body>
+
+</html>
