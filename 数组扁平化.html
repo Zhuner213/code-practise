@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        const arr = [1,[2,[3,[4]]]]
+        // 数组扁平化，提示：reduce
+        const _flatten = arr => {
+            // 补全代码
+            return arr.reduce((prev, item) => {
+                if(Array.isArray(item)) {
+                    return prev.concat(_flatten(item))
+                }else {
+                    prev.push(item)
+                    return prev
+                }
+            }, [])
+        }
+
+        console.log(_flatten(arr))
+    </script>
+</body>
+
+</html>
