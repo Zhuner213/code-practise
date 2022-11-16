@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两数之和</title>
+</head>
+
+<body>
+    <script>
+        var twoSum = function (nums, target) {
+            const obj = {}
+            for (let i = 0; i < nums.length; i++) {
+                if (obj[target - nums[i]] === undefined) {
+                    obj[nums[i]] = i
+                } else {
+                    return [i, obj[target - nums[i]]]
+                }
+            }
+            return []
+        };
+        console.log(twoSum([3, 2, 4], 6))
+    </script>
+</body>
+
+</html>

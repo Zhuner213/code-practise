@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>匹配的括号</title>
+</head>
+
+<body>
+    <script>
+        //给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+
+        // 有效字符串需满足：
+
+        // 左括号必须用相同类型的右括号闭合。
+        // 左括号必须以正确的顺序闭合。
+        // 每个右括号都有一个对应的相同类型的左括号。
+        var isValid = function (s) {
+            // 用一个数组来模拟栈空间
+            const mockStack = []
+            const strArr = s.split('')
+            // 判断括号是否匹配的函数
+            function isMatch(a, b) {
+                if (a === '(') return b === ')'
+                if (a === '[') return b === ']'
+                if (a === '{') return b === '}'
+            }
+            // 出栈一对匹配的括号
+            function popTwice(arr) {
+                arr.pop()
+                arr.pop()
+            }
+            // 将字符串数组的每一项，进行压栈
+            strArr.forEach((item, index) => {
+                let stackIndex = mockStack.push(item) - 1
+                index > 0 ? isMatch(mockStack[stackIndex - 1], mockStack[stackIndex]) ? popTwice(mockStack) : false : false
+            })
+
+            return mockStack.length === 0
+        };
+    </script>
+</body>
+
+</html>
