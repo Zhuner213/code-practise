@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var rotate = function (matrix) {
+            let bridge
+
+            function switchLocation(a, b) {
+                bridge = matrix[a[0]][a[1]]
+                matrix[a[0]][a[1]] = matrix[b[0]][b[1]]
+                matrix[b[0]][b[1]] = bridge
+            }
+
+            for (let i = 0; i < Math.floor(matrix.length / 2); i++) {
+                for (let j = 0 + i; j < matrix.length - 1 - i; j++) {
+                    switchLocation([i, j], [j, matrix.length - 1 - i])
+                    switchLocation([matrix.length - 1 - j, i], [matrix.length - 1 - i, matrix.length - 1 - j])
+                    switchLocation([i, j], [matrix.length - 1 - i, matrix.length - 1 - j])
+                }
+            }
+
+            return matrix
+        };
+
+        const matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+
+        console.log(rotate(matrix))
+    </script>
+</body>
+
+</html>
