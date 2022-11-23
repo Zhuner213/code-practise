@@ -5,14 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>再写Promise</title>
-    <script src="./Promise.js"></script>
+    <script src="./Promise.js"></script>  
 </head>
 <body>
     <script>
         const p = new Promise((resolve, reject) => {
-            resolve(1)
+            // resolve(1)
+            // reject('err')
+            // throw 'err'
+            setTimeout(() => {
+                // resolve('timeout')
+                reject('oops')
+            }, 1000)
         })  
+
         console.log(p)      
+
+        const result = p.then(res => {
+            console.log(res)
+        }, err => {
+            console.warn(err)
+        })
+        
+        p.then(res => {
+            console.log(res)
+        }, err => {
+            console.warn(err)
+        })
+
+        // console.log(result)
     </script>
 </body>
 </html>
