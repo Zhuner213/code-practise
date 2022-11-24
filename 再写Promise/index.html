@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>再写Promise</title>
-    <script src="./Promise.js"></script>  
+    <script src="./Promise.js"></script>
 </head>
+
 <body>
     <script>
         const p = new Promise((resolve, reject) => {
@@ -14,26 +16,29 @@
             // reject('err')
             // throw 'err'
             setTimeout(() => {
-                // resolve('timeout')
-                reject('oops')
+                resolve('timeout')
+                // reject('oops')
             }, 1000)
-        })  
+        })
 
-        console.log(p)      
+        // console.log(p)
 
         const result = p.then(res => {
-            console.log(res)
-        }, err => {
-            console.warn(err)
-        })
-        
-        p.then(res => {
-            console.log(res)
+            // console.log(res)
+            return 1
         }, err => {
             console.warn(err)
         })
 
-        // console.log(result)
+        // p.then(res => {
+        //     console.log(res)
+        // }, err => {
+        //     console.warn(err)
+        // })
+
+        console.log(result)
     </script>
+
 </body>
+
 </html>
