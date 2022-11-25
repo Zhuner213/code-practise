@@ -18,25 +18,25 @@
             setTimeout(() => {
                 resolve('timeout')
                 // reject('oops')
-            }, 1000)
+            }, 0)
         })
 
         // console.log(p)
 
-        const result = p.then(res => {
-            // console.log(res)
-            return 1
-        }, err => {
-            console.warn(err)
-        })
-
         // p.then(res => {
-        //     console.log(res)
-        // }, err => {
+        //     console.log(222, res)
+        // }).catch(err => {
         //     console.warn(err)
         // })
 
-        console.log(result)
+        const p2 = Promise.reject(new Promise((resolve, reject) => {
+            resolve(111)
+        }))
+
+        const p3 = Promise.reject(1)
+
+        console.log(p3)
+        // console.log(result)
     </script>
 
 </body>

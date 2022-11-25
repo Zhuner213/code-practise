@@ -9,8 +9,10 @@ function Promise(executor) {
         if (that.PromiseState !== 'pending') return
         that.PromiseState = 'fulfilled'
         that.PromiseResult = data
-        that.callbacks.forEach((item) => {
-            item.onResolved()
+        queueMicrotask(() => {
+            that.callbacks.forEach((item) => {
+                item.onResolved()
+            })
         })
     }
 
@@ -18,8 +20,10 @@ function Promise(executor) {
         if (that.PromiseState !== 'pending') return
         that.PromiseState = 'rejected'
         that.PromiseResult = data
-        that.callbacks.forEach((item) => {
-            item.onRejected()
+        queueMicrotask(() => {
+            that.callbacks.forEach((item) => {
+                item.onRejected()
+            })
         })
     }
 
@@ -32,44 +36,79 @@ function Promise(executor) {
 
 Promise.prototype.then = function (onResolved, onRejected) {
     const that = this
-    function judgeState(fun, resolve, reject) {
-        try {
-            const result = fun(that.PromiseResult)
-            if (result instanceof Promise) {
-                result.then(res => {
-                    resolve(res)
-                }, err => {
-                    reject(err)
-                })
-            } else {
-                resolve(result)
-            }
-        } catch (error) {
-            reject(error)
+
+    if(typeof onRejected !== 'function') {
+        onRejected = err => {
+            throw err
         }
     }
 
+    if(typeof onResolved !== 'function') {
+        onResolved = res => res
+    }
+
     return new Promise((resolve, reject) => {
+        function judgeState(fun) {
+            try {
+                const result = fun(that.PromiseResult)
+                if (result instanceof Promise) {
+                    result.then(res => {
+                        resolve(res)
+                    }, err => {
+                        reject(err)
+                    })
+                } else {
+                    resolve(result)
+                }
+            } catch (error) {
+                reject(error)
+            }
+        }
         if (this.PromiseState === 'fulfilled') {
-            judgeState(onResolved, resolve, reject)
+            queueMicrotask(() => {
+                judgeState(onResolved)
+            })
         }
 
         if (this.PromiseState === 'rejected') {
-            judgeState(onRejected, resolve, reject)
+            queueMicrotask(() => {
+                judgeState(onRejected)
+            })
         }
 
         if (this.PromiseState === 'pending') {
             this.callbacks.push({
                 onResolved:  function() {
-                    judgeState(onResolved, resolve, reject)
+                    judgeState(onResolved)
                 },
                 onRejected: function() {
-                    judgeState(onRejected, resolve, reject)
+                    judgeState(onRejected)
                 } 
             })
         }
     })
+}
 
+Promise.prototype.catch = function(onRejected) {
+    return this.then(undefined, onRejected)
+}
 
-    
+Promise.resolve = function(data) {
+    return new Promise((resolve, reject) => {
+        if(data instanceof Promise) {
+            data.then(res => {
+                resolve(res)
+            }, err => {
+                reject(err)
+            })
+        }else {
+            resolve(data)
+        }
+    })
+}
+
+Promise.reject = function(data) {
+    return new Promise((resolve, reject) => {
+        reject(data)
+    })
 }
